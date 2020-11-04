@@ -35,6 +35,8 @@ let write_file path graph =
 
   fprintf ff "\n%% End of graph\n" ;
 
+  
+
   close_out ff ;
   ()
 
@@ -44,7 +46,7 @@ let read_node id graph line =
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
-
+    
 (* Ensure that the given node exists in the graph. If not, create it. 
  * (Necessary because the website we use to create online graphs does not generate correct files when some nodes have been deleted.) *)
 let ensure graph id = if node_exists graph id then graph else new_node graph id
@@ -99,3 +101,19 @@ let from_file path =
   close_in infile ;
   final_graph
 
+
+(* Write the graph in a .dot file*)
+let export path graph =
+  (* Open a write-file. *)
+  let ff = open_out (path^".dot") in
+
+  (* Write in this file. *)
+  fprintf ff "digraph graphique1 {\n\tsize=\"20\"\n\tnode [shape = circle];\n";
+
+  (* Write all arcs *)
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "\t%d -> %d [ label = \"%s\" ];\n" id1 id2 lbl) ;
+
+  fprintf ff "}\n" ;
+
+  close_out ff ;
+  ()
