@@ -12,4 +12,8 @@ let gmap gr f =
   let new_graph = clone_nodes gr in
   e_fold gr (fun acu id1 id2 x -> new_arc acu id1 id2 (f x)) new_graph 
 
-let add_arc g id1 id2 n = assert false
+let add_arc g id1 id2 n =
+    let f=find_arc id1 id2 g in
+    match f with
+   |None->new_arc g id1 id2 n
+   |Some x->new_arc g id1 id2 (n+x)
