@@ -1,5 +1,6 @@
 open Gfile
 open Tool
+open FFAlgorithm
 
 let () =
 
@@ -25,7 +26,7 @@ let () =
   let graph = from_file infile in
 
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile (gmap graph (fun lbl -> string_of_int (int_of_string lbl *2) ) ) in
+  let () = write_file outfile graph in
   let () = export outfile graph in
   ()
 

@@ -13,7 +13,7 @@ let gmap gr f =
   e_fold gr (fun acu id1 id2 x -> new_arc acu id1 id2 (f x)) new_graph 
 
 let add_arc g id1 id2 n =
-    let f=find_arc id1 id2 g in
+    let f = find_arc g id1 id2  in
     match f with
-   |None->new_arc g id1 id2 n
-   |Some x->new_arc g id1 id2 (n+x)
+    |None->new_arc g id1 id2 n
+    |Some x->new_arc g id1 id2 (n+x)
