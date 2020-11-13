@@ -6,3 +6,5 @@ type t_cost={
     }
 
 val blf: int graph -> t_cost array
+
+val get_path: t_cost array -> int -> int list
