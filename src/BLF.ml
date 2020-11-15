@@ -15,25 +15,27 @@ let blf gr id_src id_dest=
     let acu =Array.make nb_n cost in
     (*je fais un fold_left pour pouvoir individualiser au niveau de la mémoire les cases de la table*)
     let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_int; father=(-1)}; acu ) acu in
-
+    blf_tab.(id_src).cout<-0;
     let file_id=[id_src] in
+    let file_marque =[] in
 
-    let rec blf_rec gr file_id = match file_id with
+    let rec blf_rec gr file_id file_marque= match file_id with
         |[]-> blf_tab
         |a::b-> 
         let l_out_arc=out_arcs gr a in
-            let rec loop_suc file_id l_out_arc blf_tab=match l_out_arc with
-                |[]-> blf_rec gr b
+            let rec loop_suc l_out_arc blf_tab file =
+                match l_out_arc with
+                |[]-> blf_rec gr file (a::file_marque)
                 |(id,label)::d-> 
                     if label != 0 && (blf_tab.(a).cout+label)<blf_tab.(id).cout then
                     begin
                         blf_tab.(id).cout<-(blf_tab.(a).cout+label);
                         blf_tab.(id).father<-a; 
-                        if not (List.mem id file_id ) then loop_suc (List.append file_id [id]) d blf_tab else loop_suc file_id d blf_tab
+                        if not (List.mem id file_marque) then loop_suc d blf_tab (id::file) else loop_suc d blf_tab file
                     end
-                    else loop_suc file_id d blf_tab in
-        loop_suc file_id l_out_arc blf_tab in
-    blf_rec gr file_id
+                    else loop_suc d blf_tab file in
+        loop_suc l_out_arc blf_tab b in
+    blf_rec gr file_id file_marque 
 
 (*avec blf_tab, on retrace chemin avec les pères*)
 let get_path gr id_src id_dest=
