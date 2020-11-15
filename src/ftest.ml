@@ -2,8 +2,13 @@ open Gfile
 open Tool
 open FFAlgorithm
 open BLF
+open Format
 
 let () =
+ 
+  (*/!\ Format de la commande pour lancer le test : 
+        ./ftest.native [nom_fichier_lecture] [id_source] [id_dest] [nom_fichier_ecriture]
+   ex : ./ftest.native graphs/graph1 0 5 graphs/graph3 *)
 
   (* Check the number of command-line arguments *)
   if Array.length Sys.argv <> 5 then
@@ -25,9 +30,12 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
+  let initGraph = g_to_int graph in
 
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph in
-  let () = export outfile graph in
+  let (flow,finalGraph) = ford_fulk_algorithm initGraph _source _sink in
+  let () = printf "%d\n" flow in
+  let () = export outfile finalGraph in
   ()
 

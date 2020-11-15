@@ -1,8 +1,11 @@
 open Graph
 open Tool
+open BLF
 
-type path = id list
 
+val g_to_int: string graph -> int graph
+
+val ford_fulk_algorithm : int graph -> id -> id -> (int * string graph)
 
 (* for testing purpose *)
 

@@ -1,5 +1,7 @@
 open Graph
 
+type path = id list
+
 (*type record avec id noeud et son cout*)
 type t_cost={
     mutable cout:int;
