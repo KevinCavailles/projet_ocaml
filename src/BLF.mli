@@ -5,6 +5,6 @@ type t_cost={
     mutable father:int 
     }
 
-val blf: int graph -> t_cost array
+val blf: int graph -> id -> id -> t_cost array
 
-val get_path: t_cost array -> int -> int list
+val get_path: int graph -> id -> id -> int list option

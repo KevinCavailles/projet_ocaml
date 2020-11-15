@@ -6,17 +6,17 @@ type t_cost={
     mutable father:int 
     }
 
-let blf gr=
+let blf gr id_src id_dest=
     (*je compte le nb de noeuds dans le graphe pour instancier mon tableau*)
     let nb_n=n_fold gr (fun acu id->acu+1) 0 in
     
-    let cost ={cout=max_int; father=0} in
+    let cost ={cout=max_int; father=(-1)} in
 
     let acu =Array.make nb_n cost in
     (*je fais un fold_left pour pouvoir individualiser au niveau de la mémoire les cases de la table*)
-    let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_int; father=0}; acu ) acu in
+    let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_int; father=(-1)}; acu ) acu in
 
-    let file_id=[0] in
+    let file_id=[id_src] in
 
     let rec blf_rec gr file_id = match file_id with
         |[]-> blf_tab
@@ -25,7 +25,7 @@ let blf gr=
             let rec loop_suc file_id l_out_arc blf_tab=match l_out_arc with
                 |[]-> blf_rec gr b
                 |(id,label)::d-> 
-                    if (blf_tab.(a).cout+label)<blf_tab.(id).cout then
+                    if label != 0 && (blf_tab.(a).cout+label)<blf_tab.(id).cout then
                     begin
                         blf_tab.(id).cout<-(blf_tab.(a).cout+label);
                         blf_tab.(id).father<-a; 
@@ -36,10 +36,11 @@ let blf gr=
     blf_rec gr file_id
 
 (*avec blf_tab, on retrace chemin avec les pères*)
-let get_path blf_tab id_dest=
+let get_path gr id_src id_dest=
+    let blf_tab=blf gr id_src id_dest in
     let path=[id_dest] in
-    let rec loop path blf_tab id_dest= 
+    let rec loop path blf_tab id_src id_dest= 
         let father_id=blf_tab.(id_dest).father in match father_id with
-           |0->(0::path)
-           |a->loop (a::path) blf_tab a in
-    loop path blf_tab id_dest
+           |(-1)->None 
+           |a->if a == id_src then Some (id_src::path) else loop (a::path) blf_tab id_src a in
+    loop path blf_tab id_src id_dest
