@@ -3,6 +3,7 @@ open Tool
 open FFAlgorithm
 open BLF
 open Format
+open Sys
 
 let () =
  
@@ -33,9 +34,13 @@ let () =
   let initGraph = g_to_int graph in
 
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile graph in
+ 
   let (flow,finalGraph) = ford_fulk_algorithm initGraph _source _sink in
-  let () = printf "%d\n" flow in
+  let () = printf "max flow = %d\n" flow in
+  let () = write_file outfile finalGraph in
   let () = export outfile finalGraph in
+  
+  (*Uncomment the following line if you have graphviz installed  *)
+  (* let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in *)
   ()
 

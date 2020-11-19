@@ -5,9 +5,6 @@ open BLF
 let g_to_string gr = gmap gr string_of_int
 let g_to_int gr = gmap gr int_of_string
 
-let find_path (graph : int graph) (forbidden : id list) (id1 : id) (id2 : id) = 
-  None
-
 (* Create a list of pairs (origin,end) from a list of nodes *)
 let rec create_arcs_from_nodes = function
   | [] -> []
