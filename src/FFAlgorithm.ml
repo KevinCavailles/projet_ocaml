@@ -5,6 +5,7 @@ open BLF
 let g_to_string gr = gmap gr string_of_int
 let g_to_int gr = gmap gr int_of_string
 
+
 (* Create a list of pairs (origin,end) from a list of nodes *)
 let rec create_arcs_from_nodes = function
   | [] -> []
@@ -13,7 +14,7 @@ let rec create_arcs_from_nodes = function
   
 
 
-(* Return the minimum value of a path's arcs*)
+(* Return the minimum value of a path's edge*)
 let get_min_label_from_path (graph : int graph) (path : (id * id) list) =
   let min = Some 999 in
   let min = List.fold_left
@@ -27,7 +28,7 @@ let get_min_label_from_path (graph : int graph) (path : (id * id) list) =
     |Some x -> x
 
 
-(* Add a value to every arc of a path *)
+(* Add a value to every egde of a path *)
 let add_value_to_arcs (graph : int graph) (path : (id * id) list) (value : int) = 
   List.fold_left 
     (
@@ -37,10 +38,38 @@ let add_value_to_arcs (graph : int graph) (path : (id * id) list) (value : int) 
     graph path
  
 
-(* Reverse a path and its arc 
+(* Reverse a path and its edges 
    ex :[(a, b);(b, c)] -> [(b,a);(c, b)] *)
 let rev_arcs (path : (id * id) list) =
   List.map (fun (id1, id2) -> (id2, id1)) path
+
+  
+(* Removes the edges whose label = 0 *)
+let remove_zeroes (graph : int graph) = 
+  let initGraph = clone_nodes graph in
+  e_fold graph
+  (
+    fun acu id1 id2 x ->
+    if x = 0 then acu else new_arc acu id1 id2 x  
+  ) initGraph
+
+(* Remove bi-directional edges between 2 nodes*)
+let only_one_edge (graph : int graph) = 
+  let graphWithZeroes = e_fold graph 
+  (
+    fun acu id1 id2 x -> 
+    let path = [(id1,id2);(id2,id1)] in
+    
+    let label_rev = (match find_arc graph id2 id1 with
+    |None -> 0
+    |Some x -> x) in
+    let mini = min x label_rev in
+    let gr = add_value_to_arcs graph path (-mini) in
+    if x = 0 || mini = 0 then acu else gr
+  )
+  graph in
+  let graphWithoutZeroes = remove_zeroes graphWithZeroes in
+  graphWithoutZeroes
 
 
 (* Get the final graph after the FFalgorithm 
@@ -60,20 +89,20 @@ let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   e_fold initGraph
   (
     fun acu id1 id2 x ->
-    let label_arc = find_arc initGraphString id1 id2 in
-    let label_arc = (match label_arc with
+    let label_arc = (match find_arc initGraphString id1 id2 with
     |None -> "-1"
     |Some x -> x) in
     let label_rev_arc = find_arc residualGraphString id2 id1 in
     match label_rev_arc with
     |None -> new_arc acu id1 id2 ("0/"^label_arc) 
     |Some x -> new_arc acu id1 id2 (""^x^"/"^label_arc)  
-
   )
   finalGraph
 
-let ford_fulk_algorithm graph origin sink = 
+let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) = 
   let flow = 0 in
+
+  let graph = only_one_edge graph in 
   let initGraph = graph in
   let rec boucle graph origin sink flow = 
     
@@ -103,6 +132,6 @@ let ford_fulk_algorithm graph origin sink =
         let flow = flow + min in
         boucle graph origin sink flow) in
   let (maxFlow, residualGraph) = boucle graph origin sink flow in
-  let finalGraph = get_final_graph initGraph residualGraph in
+  let finalGraph = get_final_graph initGraph residualGraph in 
   (maxFlow, finalGraph) 
   

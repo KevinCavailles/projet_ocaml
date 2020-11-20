@@ -39,8 +39,10 @@ let () =
   let () = printf "max flow = %d\n" flow in
   let () = write_file outfile finalGraph in
   let () = export outfile finalGraph in
+  (* let () = export infile graph in *)
+
   
   (*Uncomment the following line if you have graphviz installed  *)
-  (* let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in *)
+  (*let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in*)
   ()
 

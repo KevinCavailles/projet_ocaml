@@ -7,6 +7,10 @@ val g_to_int: string graph -> int graph
 
 val ford_fulk_algorithm : int graph -> id -> id -> (int * string graph)
 
+(* val g_to_string: int graph -> string graph *)
+
+(* val only_one_edge: int graph -> int graph *)
+
 (* for testing purpose *)
 
 (* val rev_arcs: (id * id) list -> (id * id) list
