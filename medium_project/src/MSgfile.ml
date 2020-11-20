@@ -97,3 +97,19 @@ let from_file path =
 
   close_in infile ;
   final_graph_lid
+
+(* Write the graph in a .dot file*)
+let export path graph =
+  (* Open a write-file. *)
+  let ff = open_out (path^".dot") in
+
+  (* Write in this file. *)
+  fprintf ff "digraph graphique1 {\n\tsize=\"20\"\n\tnode [shape = circle];\n";
+
+  (* Write all arcs *)
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "\t%d -> %d [ label = \"%s\" ];\n" id1 id2 lbl) ;
+
+  fprintf ff "}\n" ;
+
+  close_out ff ;
+  ()

@@ -17,11 +17,11 @@ let get_user id1 l_id= match l_id with
     |(nom,a)::b-> if a=id1 then nom else get_user id1 b
 
 (*fonction qui rentre les paiements réalisés*)
-let rec paiement g utilisateur l_utilisateurs montant l_id=
-    let id1=(get_id utilisateur l_id) in
-    match l_utilisateurs with
+let rec paiement g utilisateur l_utilisateurs montant l_id= match l_utilisateurs with
     |[]-> (g, l_id)
-    |a::b-> paiement (add_arc g id1 (get_id a l_id) montant) id1 b montant l_id
+    |a::b-> if not(a=utlisateur) 
+            then paiement (add_arc g (get_id utilisateur l_id) (get_id a l_id) (montant/(List.length l_utilisateurs))) utilisateur b montant l_id 
+            else paiement g utilisateur b montant l_id
 
 
 
