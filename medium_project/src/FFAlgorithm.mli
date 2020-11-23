@@ -3,18 +3,18 @@ open Tool
 open BLF
 
 
-val g_to_int: string graph -> int graph
+val g_to_float: string graph -> float graph
 
-val ford_fulk_algorithm : int graph -> id -> id -> (int * string graph)
+val ford_fulk_algorithm : float graph -> id -> id -> (float * string graph)
 
-(* val g_to_string: int graph -> string graph *)
+(* val g_to_string: float graph -> string graph *)
 
-(* val only_one_edge: int graph -> int graph *)
+(* val only_one_edge: float graph -> float graph *)
 
 (* for testing purpose *)
 
 (* val rev_arcs: (id * id) list -> (id * id) list
 
-val add_value_to_arcs: int graph -> (id * id) list -> int -> int graph
+val add_value_to_arcs: float graph -> (id * id) list -> float -> float graph
 
-val get_final_graph: int graph -> int graph -> string graph *)
+val get_final_graph: float graph -> float graph -> string graph *)

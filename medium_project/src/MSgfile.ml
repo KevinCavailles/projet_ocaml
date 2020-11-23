@@ -13,8 +13,8 @@ type path = string
    u Macha
 
    % You can now enter your payements as it follows: p userWhoPaid [forWhichUser1; forWhichUser2 ..] amount
-   p Flo [Gaby; Flo; Macha] 11.0
-   p Gaby [Flo] 8.5
+   p Flo Gaby,Flo,Macha 11.0
+   p Gaby Flo 8.5
 
 *)
 
@@ -34,7 +34,7 @@ let write_file path graph l_id=
   fprintf ff "%% Here are the reimbursements to be made.\n\n" ;
 
   (* Write all arcs *)
-  e_iter graph (fun id1 id2 lbl -> fprintf ff "p %d %d %s\n" (get_user id1 l_id) (get_user id2 l_id) lbl) ;
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "p %s %s %s\n" (get_user id1 l_id) (get_user id2 l_id) lbl) ;
 
   fprintf ff "\n%% End of reimbursements\n" ;
 
@@ -50,7 +50,7 @@ let read_comment graph line l_id=
     failwith "from_file"
 
 (* Reads a line with a user. *)
-let read_user id graph line l_id=
+let read_user id graph l_id line =
   try Scanf.sscanf line "u %s" (fun user l_id-> ((init_node graph user id), l_id) )
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
@@ -58,8 +58,8 @@ let read_user id graph line l_id=
 
 (* Reads a line with a payement. *)
 let read_payement graph line l_id=
-  try Scanf.sscanf line "p %s %r %f"
-        (fun u l_u label -> ((paiement graph u l_u label), l_id))
+  try Scanf.sscanf line "p %s %s %f"
+    (fun u l_u label -> ((paiement graph u (String.split_on_char ',' l_u) label), l_id))
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -72,7 +72,7 @@ let from_file path =
    * n is the current node counter. *)
   let rec loop n graph l_id=
     try
-      let line = input_line infile in
+      let line = input_line infile in 
 
       (* Remove leading and trailing spaces. *)
       let line = String.trim line in
@@ -83,8 +83,8 @@ let from_file path =
 
         (* The first character of a line determines its content : n or e. *)
         else match line.[0] with
-          | 'u' -> (n+1, read_node n graph line l_id )
-          | 'p' -> (n, read_arc graph line l_id)
+          | 'u' -> (n+1, (read_user n graph l_id line))
+          | 'p' -> (n, read_payement graph line l_id)
 
           (* It should be a comment, otherwise we complain. *)
           | _ -> (n, read_comment graph line l_id)

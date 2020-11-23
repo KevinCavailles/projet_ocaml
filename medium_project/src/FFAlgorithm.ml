@@ -2,8 +2,8 @@ open Graph
 open Tool
 open BLF
 
-let g_to_string gr = gmap gr string_of_int
-let g_to_int gr = gmap gr int_of_string
+let g_to_string gr = gmap gr string_of_float
+let g_to_float gr = gmap gr float_of_string
 
 
 (* Create a list of pairs (origin,end) from a list of nodes *)
@@ -15,8 +15,8 @@ let rec create_arcs_from_nodes = function
 
 
 (* Return the minimum value of a path's edge*)
-let get_min_label_from_path (graph : int graph) (path : (id * id) list) =
-  let min = Some 999 in
+let get_min_label_from_path (graph : float graph) (path : (id * id) list) =
+  let min = Some 999.0 in
   let min = List.fold_left
     (
       fun acu (id1, id2) -> 
@@ -24,12 +24,12 @@ let get_min_label_from_path (graph : int graph) (path : (id * id) list) =
         if label < acu then label else acu
     ) min path in
     match min with
-    |None -> 999
+    |None -> 999.0
     |Some x -> x
 
 
 (* Add a value to every egde of a path *)
-let add_value_to_arcs (graph : int graph) (path : (id * id) list) (value : int) = 
+let add_value_to_arcs (graph : float graph) (path : (id * id) list) (value : float) = 
   List.fold_left 
     (
       fun acu (id1, id2) -> 
@@ -45,27 +45,27 @@ let rev_arcs (path : (id * id) list) =
 
   
 (* Removes the edges whose label = 0 *)
-let remove_zeroes (graph : int graph) = 
+let remove_zeroes (graph : float graph) = 
   let initGraph = clone_nodes graph in
   e_fold graph
   (
     fun acu id1 id2 x ->
-    if x = 0 then acu else new_arc acu id1 id2 x  
+    if x = 0.0 then acu else new_arc acu id1 id2 x  
   ) initGraph
 
 (* Remove bi-directional edges between 2 nodes*)
-let only_one_edge (graph : int graph) = 
+let only_one_edge (graph : float graph) = 
   let graphWithZeroes = e_fold graph 
   (
     fun acu id1 id2 x -> 
     let path = [(id1,id2);(id2,id1)] in
     
     let label_rev = (match find_arc graph id2 id1 with
-    |None -> 0
+    |None -> 0.0
     |Some x -> x) in
     let mini = min x label_rev in
-    let gr = add_value_to_arcs graph path (-mini) in
-    if x = 0 || mini = 0 then acu else gr
+    let gr = add_value_to_arcs graph path (Float.neg mini) in
+    if x = 0.0 || mini = 0.0 then acu else gr
   )
   graph in
   let graphWithoutZeroes = remove_zeroes graphWithZeroes in
@@ -75,7 +75,7 @@ let only_one_edge (graph : int graph) =
 (* Get the final graph after the FFalgorithm 
   The label of every arc becomes "x/max_capacity" where x 
   is the value of the opposite arc on the residual graph*)
-let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
+let get_final_graph (initGraph : float graph) (residualGraph : float graph) =
   
   (* First get the initial and residual graph as string graphs *)
   let initGraphString = g_to_string initGraph in
@@ -85,7 +85,7 @@ let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   (* For every arc in the initial graph, we get its label (aka max_capacity)
     then, we get the label of the opposite arc in the residual graph. 
     If it exists then the arc of the final graph gets the label "x/max_capacity",
-    "0/max_capacity" otherwise*)
+    "0.0/max_capacity" otherwise*)
   e_fold initGraph
   (
     fun acu id1 id2 x ->
@@ -99,8 +99,8 @@ let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   )
   finalGraph
 
-let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) = 
-  let flow = 0 in
+let ford_fulk_algorithm (graph : float graph) (origin : id) (sink : id) = 
+  let flow = 0.0 in
 
   let graph = only_one_edge graph in 
   let initGraph = graph in
@@ -119,7 +119,7 @@ let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) =
         let min = get_min_label_from_path graph arcs in
     
         (* Substract the min to every arc of the path *)
-        let graph = add_value_to_arcs graph arcs (-min) in
+        let graph = add_value_to_arcs graph arcs (Float.neg min) in
 
 
         (* Get the reverse path *)
@@ -129,7 +129,7 @@ let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) =
         let graph = add_value_to_arcs graph reverse min in
     
         (* Add the min to the flow *) 
-        let flow = flow + min in
+        let flow = Float.add flow min in
         boucle graph origin sink flow) in
   let (maxFlow, residualGraph) = boucle graph origin sink flow in
   let finalGraph = get_final_graph initGraph residualGraph in 

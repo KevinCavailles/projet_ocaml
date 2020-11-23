@@ -1,9 +1,9 @@
 open Graph
 
-val paiement: int graphe -> string -> string list -> float -> (string,id) list -> (int graphe, (string,id) list)
+val paiement: float graph -> string -> string list -> float -> (string * id) list -> (float graph * (string * id) list)
 
-val init_node: int graphe -> string ->id -> (string,id) list-> (int graphe, (string,id) list)
+val init_node: float graph -> string ->id -> (string * id) list-> (float graph * (string * id) list)
 
-val get_id: string -> (string, id) list -> id
+val get_id: string -> (string * id) list -> id
 
-val get_user: id -> (string, id) list -> string
+val get_user: id -> (string * id) list -> string

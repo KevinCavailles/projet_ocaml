@@ -4,7 +4,7 @@ type path = id list
 
 (*type record avec id noeud et son cout*)
 type t_cost={
-    mutable cout:int;
+    mutable cout:float;
     mutable father:int 
     }
 
@@ -12,12 +12,12 @@ let blf gr id_src id_dest=
     (*je compte le nb de noeuds dans le graphe pour instancier mon tableau*)
     let nb_n=n_fold gr (fun acu id->acu+1) 0 in
     
-    let cost ={cout=max_int; father=(-1)} in
+    let cost ={cout=max_float; father=(-1)} in
 
     let acu =Array.make nb_n cost in
     (*je fais un fold_left pour pouvoir individualiser au niveau de la mémoire les cases de la table*)
-    let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_int; father=(-1)}; acu ) acu in
-    blf_tab.(id_src).cout<-0;
+    let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_float; father=(-1)}; acu ) acu in
+    blf_tab.(id_src).cout<-0.0;
     let file_id=[id_src] in
     let file_marque =[] in
 
@@ -29,9 +29,9 @@ let blf gr id_src id_dest=
                 match l_out_arc with
                 |[]-> blf_rec gr file (a::file_marque)
                 |(id,label)::d-> 
-                    if label != 0 && (blf_tab.(a).cout+label)<blf_tab.(id).cout then
+                    if label != 0.0 && (Float.add blf_tab.(a).cout label)<(blf_tab.(id).cout) then
                     begin
-                        blf_tab.(id).cout<-(blf_tab.(a).cout+label);
+                        blf_tab.(id).cout<-(Float.add blf_tab.(a).cout label);
                         blf_tab.(id).father<-a; 
                         if not (List.mem id file_marque) then loop_suc d blf_tab (id::file) else loop_suc d blf_tab file
                     end

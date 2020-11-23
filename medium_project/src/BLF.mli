@@ -3,10 +3,10 @@ open Graph
 type path = id list
 
 type t_cost={
-    mutable cout:int;
+    mutable cout:float;
     mutable father:int 
     }
 
-val blf: int graph -> id -> id -> t_cost array
+val blf: float graph -> id -> id -> t_cost array
 
-val get_path: int graph -> id -> id -> path option
+val get_path: float graph -> id -> id -> path option

@@ -31,12 +31,12 @@ let () =
 
   (* Open file *)
   let (graph, l_id) = from_file infile in
-  let initGraph = g_to_int graph in
+  let initGraph = g_to_float graph in
 
   (* Rewrite the graph that has been read. *)
  
   let (flow,finalGraph) = ford_fulk_algorithm initGraph _source _sink in
-  let () = printf "max flow = %d\n" flow in
+  let () = printf "max flow = %f\n" flow in
   let () = write_file outfile finalGraph l_id in
   let () = export outfile finalGraph in
   (* let () = export infile graph in *)
