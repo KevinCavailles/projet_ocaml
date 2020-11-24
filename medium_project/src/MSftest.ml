@@ -31,7 +31,7 @@ let () =
 
   (* Open file *)
   let (graph, l_id) = from_file infile in
-  let initGraph = g_to_float graph in
+  let initGraph = graph in
 
   (* Rewrite the graph that has been read. *)
  
