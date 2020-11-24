@@ -43,43 +43,14 @@ let add_value_to_arcs (graph : int graph) (path : (id * id) list) (value : int) 
 let rev_arcs (path : (id * id) list) =
   List.map (fun (id1, id2) -> (id2, id1)) path
 
-  
-(* Removes the edges whose label = 0 *)
-let remove_zeroes (graph : int graph) = 
-  let initGraph = clone_nodes graph in
-  e_fold graph
-  (
-    fun acu id1 id2 x ->
-    if x = 0 then acu else new_arc acu id1 id2 x  
-  ) initGraph
-
-(* Remove bi-directional edges between 2 nodes*)
-let only_one_edge (graph : int graph) = 
-  let graphWithZeroes = e_fold graph 
-  (
-    fun acu id1 id2 x -> 
-    let path = [(id1,id2);(id2,id1)] in
-    
-    let label_rev = (match find_arc graph id2 id1 with
-    |None -> 0
-    |Some x -> x) in
-    let mini = min x label_rev in
-    let gr = add_value_to_arcs graph path (-mini) in
-    if x = 0 || mini = 0 then acu else gr
-  )
-  graph in
-  let graphWithoutZeroes = remove_zeroes graphWithZeroes in
-  graphWithoutZeroes
-
-
 (* Get the final graph after the FFalgorithm 
   The label of every arc becomes "x/max_capacity" where x 
   is the value of the opposite arc on the residual graph*)
 let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   
   (* First get the initial and residual graph as string graphs *)
-  let initGraphString = g_to_string initGraph in
-  let residualGraphString = g_to_string residualGraph in
+  let initGraphString = initGraph in
+  let residualGraphString = residualGraph in
   let finalGraph = clone_nodes initGraph in
   
   (* For every arc in the initial graph, we get its label (aka max_capacity)
@@ -90,19 +61,22 @@ let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   (
     fun acu id1 id2 x ->
     let label_arc = (match find_arc initGraphString id1 id2 with
-    |None -> "-1"
-    |Some x -> x) in
-    let label_rev_arc = find_arc residualGraphString id2 id1 in
-    match label_rev_arc with
-    |None -> new_arc acu id1 id2 ("0/"^label_arc) 
-    |Some x -> new_arc acu id1 id2 (""^x^"/"^label_arc)  
+      |None -> 0
+      |Some x -> x) in
+    let label_rev_arc = match find_arc residualGraphString id2 id1 with
+      |None -> 0
+      |Some x -> (match find_arc initGraphString id2 id1 with
+        |None -> x
+        |Some y -> x-y) in
+    let label_arc = string_of_int label_arc in
+    let label_rev_arc = if (label_rev_arc > 0) then (string_of_int label_rev_arc) else "0" in
+    new_arc acu id1 id2 (label_rev_arc^"/"^label_arc)  
   )
   finalGraph
 
 let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) = 
   let flow = 0 in
 
-  let graph = only_one_edge graph in 
   let initGraph = graph in
   let rec boucle graph origin sink flow = 
     
