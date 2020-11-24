@@ -1,7 +1,6 @@
 
 build:
 	@echo "\n==== COMPILING ====\n"
-	#ocamlbuild ftest.native#
 	ocamlbuild MSftest.native
 
 format:
