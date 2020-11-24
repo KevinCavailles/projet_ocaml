@@ -7,3 +7,7 @@ val init_node: float graph -> string ->id -> (string * id) list-> (float graph *
 val get_id: string -> (string * id) list -> id
 
 val get_user: id -> (string * id) list -> string
+
+val set_val_du: 
+
+val set_val_pret:
