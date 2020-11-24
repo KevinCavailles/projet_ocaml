@@ -49,11 +49,7 @@ let read_comment graph line l_id=
 
 (* Reads a line with a user. *)
 let read_user id graph l_id line =
-<<<<<<< HEAD
-  try Scanf.sscanf line "u %s" (fun user-> (init_node graph user id l_id )
-=======
   try Scanf.sscanf line "u %s" (fun user -> init_node graph user id l_id )
->>>>>>> 097a500b7df1b0d2233a4edb99973bee942814f9
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -61,11 +57,7 @@ let read_user id graph l_id line =
 (* Reads a line with a payement. *)
 let read_payement graph l_id line =
   try Scanf.sscanf line "p %s %s %f"
-<<<<<<< HEAD
-    (fun user l_user label -> ((paiement graph user (String.split_on_char ',' l_user) label, l_id)
-=======
         (fun user l_user label -> paiement graph user (String.split_on_char ',' l_user) label l_id)
->>>>>>> 097a500b7df1b0d2233a4edb99973bee942814f9
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -90,11 +82,7 @@ let from_file path =
         (* The first character of a line determines its content : u or p. *)
         else match line.[0] with
           | 'u' -> (n+1, read_user n graph l_id line)
-<<<<<<< HEAD
-          | 'p' -> (n, read_payement graph line l_id)
-=======
           | 'p' -> (n, read_payement graph l_id line)
->>>>>>> 097a500b7df1b0d2233a4edb99973bee942814f9
 
           (* It should be a comment, otherwise we complain. *)
           | _ -> (n, read_comment graph line l_id)
