@@ -38,8 +38,6 @@ let write_file path graph l_id=
 
   fprintf ff "\n%% End of reimbursements\n" ;
 
-  
-
   close_out ff ;
   ()
 
@@ -51,15 +49,15 @@ let read_comment graph line l_id=
 
 (* Reads a line with a user. *)
 let read_user id graph l_id line =
-  try Scanf.sscanf line "u %s" (fun user l_id-> ((init_node graph user id), l_id) )
+  try Scanf.sscanf line "u %s" (fun user -> init_node graph user id l_id )
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
 
 (* Reads a line with a payement. *)
-let read_payement graph line l_id=
+let read_payement graph l_id line =
   try Scanf.sscanf line "p %s %s %f"
-    (fun u l_u label -> ((paiement graph u (String.split_on_char ',' l_u) label), l_id))
+        (fun user l_user label -> paiement graph user (String.split_on_char ',' l_user) label l_id)
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -81,10 +79,10 @@ let from_file path =
         (* Ignore empty lines *)
         if line = "" then (n, (graph, l_id))
 
-        (* The first character of a line determines its content : n or e. *)
+        (* The first character of a line determines its content : u or p. *)
         else match line.[0] with
-          | 'u' -> (n+1, (read_user n graph l_id line))
-          | 'p' -> (n, read_payement graph line l_id)
+          | 'u' -> (n+1, read_user n graph l_id line)
+          | 'p' -> (n, read_payement graph l_id line)
 
           (* It should be a comment, otherwise we complain. *)
           | _ -> (n, read_comment graph line l_id)
