@@ -7,8 +7,6 @@ val g_to_float: string graph -> float graph
 
 val ford_fulk_algorithm : float graph -> id -> id -> (float * string graph)
 
-(* val g_to_string: float graph -> string graph *)
-
 (* val only_one_edge: float graph -> float graph *)
 
 (* for testing purpose *)

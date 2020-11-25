@@ -17,3 +17,6 @@ let add_arc g id1 id2 n =
     match f with
     |None->new_arc g id1 id2 n
     |Some x->new_arc g id1 id2 (Float.add n x)
+
+let get_max_id graph = 
+  n_fold graph (fun acu id -> max id acu) 0 

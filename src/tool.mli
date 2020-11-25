@@ -7,3 +7,5 @@ val clone_nodes: 'a graph -> 'b graph
 val gmap: 'a graph -> ('a -> 'b) -> 'b graph
 
 val add_arc: float graph -> id -> id -> float -> float graph
+
+val get_max_id : 'a graph -> id

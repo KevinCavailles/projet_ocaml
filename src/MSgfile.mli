@@ -1,4 +1,6 @@
 open Graph
+open Printf
+open MoneySharing
 
 type path = string
 

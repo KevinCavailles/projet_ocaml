@@ -29,7 +29,7 @@ let blf gr id_src id_dest=
                 match l_out_arc with
                 |[]-> blf_rec gr file (a::file_marque)
                 |(id,label)::d-> 
-                    if label != 0.0 && (Float.add blf_tab.(a).cout label)<(blf_tab.(id).cout) then
+                    if label <> 0.0 && (Float.add blf_tab.(a).cout label)<(blf_tab.(id).cout) then
                     begin
                         blf_tab.(id).cout<-(Float.add blf_tab.(a).cout label);
                         blf_tab.(id).father<-a; 

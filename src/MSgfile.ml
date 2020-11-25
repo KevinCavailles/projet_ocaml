@@ -13,13 +13,13 @@ type path = string
    u Macha
 
    % You can now enter your payements as it follows: p userWhoPaid [forWhichUser1; forWhichUser2 ..] amount
-   p Flo Gaby,Flo,Macha 11.0
-   p Gaby Flo 8.5
+   p Flo -> Gaby,Flo,Macha : 11.0€
+   p Gaby -> Flo : 8.5€
 
 *)
 
 
-let write_file path graph l_id=
+let write_file path graph l_id =
 
   (* Open a write-file. *)
   let ff = open_out path in
@@ -34,14 +34,14 @@ let write_file path graph l_id=
   fprintf ff "%% Here are the reimbursements to be made.\n\n" ;
 
   (* Write all arcs *)
-  e_iter graph (fun id1 id2 lbl -> fprintf ff "p %s %s %s\n" (get_user id1 l_id) (get_user id2 l_id) lbl) ;
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "p %s -> %s : %s€\n" (get_user id1 l_id) (get_user id2 l_id) lbl) ;
 
   fprintf ff "\n%% End of reimbursements\n" ;
 
   close_out ff ;
   ()
 
-let read_comment graph line l_id=
+let read_comment graph line l_id =
   try Scanf.sscanf line " %%" (graph, l_id)
   with _ ->
     Printf.printf "Unknown line:\n%s\n%!" line ;
@@ -56,7 +56,7 @@ let read_user id graph l_id line =
 
 (* Reads a line with a payement. *)
 let read_payement graph l_id line =
-  try Scanf.sscanf line "p %s %s %f"
+  try Scanf.sscanf line "p %s -> %s : %f€"
         (fun user l_user label -> paiement graph user (String.split_on_char ',' l_user) label l_id)
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
@@ -91,11 +91,17 @@ let from_file path =
 
     with End_of_file -> (graph, l_id) (* Done *)
   in
-  let final_graph_lid= loop 0 empty_graph [] in
+  let (graph, l_id) = loop 1 empty_graph [] in
 
+  (* Users with negative balance linked to the origin
+     Users with positive balance linked to sink *)
+  let graph = set_sink_origin graph l_id in
+  (* Link users between themselves with *)
+  let graph = link_users graph l_id in
   close_in infile ;
-  final_graph_lid
+  (graph, l_id)
 
+  
 (* Write the graph in a .dot file*)
 let export path graph =
   (* Open a write-file. *)
