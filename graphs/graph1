@@ -1,0 +1,12 @@
+%% Test graph #1
+
+%% Nodes
+
+u Gaby
+u Flo
+u Macha
+
+
+p Flo -> Gaby,Flo,Macha : 30.0€
+p Gaby -> Gaby,Flo : 20.0€
+p Macha -> Gaby,Macha : 20.0€
