@@ -12,11 +12,11 @@ let gmap gr f =
   let new_graph = clone_nodes gr in
   e_fold gr (fun acu id1 id2 x -> new_arc acu id1 id2 (f x)) new_graph 
 
-let add_arc g id1 id2 cout =
+let add_capa g id1 id2 capa =
     let f = find_arc g id1 id2  in
     match f with
-    |None->new_arc g id1 id2 (cout,1)
-    |Some x->new_arc g id1 id2 ((Int.add cout x),1)
+    |None->raise Not_Found
+    |Some (l_cout,l_capa)->new_arc g id1 id2 (l_cout,(Int.add capa l_capa))
 
 let get_max_id graph = 
   n_fold graph (fun acu id -> max id acu) 0 

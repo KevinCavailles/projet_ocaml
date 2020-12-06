@@ -17,7 +17,7 @@ let blf gr id_src id_dest=
     let acu =Array.make nb_n cost in
     (*je fais un fold_left pour pouvoir individualiser au niveau de la mémoire les cases de la table*)
     let blf_tab=n_fold gr (fun acu id->acu.(id)<-{cout=max_int; father=(-1)}; acu ) acu in
-    blf_tab.(id_src).cout<-0.0;
+    blf_tab.(id_src).cout<-0;
     let file_id=[id_src] in
     let file_marque =[] in
 
@@ -29,7 +29,7 @@ let blf gr id_src id_dest=
                 match l_out_arc with
                 |[]-> blf_rec gr file (a::file_marque)
                 |(id,(lcout,lcapa))::d-> 
-                    if lcout <> 0.0 && (Int.add blf_tab.(a).cout lcout)<(blf_tab.(id).cout) then
+                    if lcapa <> 0 && (Int.add blf_tab.(a).cout lcout)<(blf_tab.(id).cout) then
                     begin
                         blf_tab.(id).cout<-(Int.add blf_tab.(a).cout lcout);
                         blf_tab.(id).father<-a; 
