@@ -21,7 +21,7 @@ let get_min_label_from_path (graph : float graph) (path : (id * id) list) =
     (
       fun acu (id1, id2) -> 
         let label = ( match find_arc graph id1 id2 with
-        |None -> 999999999.0
+        |None -> 999999999
         |Some x -> x) in 
         if label < acu then label else acu
     ) min path
