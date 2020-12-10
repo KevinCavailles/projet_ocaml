@@ -1,13 +1,21 @@
 
 build:
 	@echo "\n==== COMPILING ====\n"
-	ocamlbuild MSftest.native
+	ocamlbuild ftest_advanced.native
 
 format:
 	ocp-indent --inplace src/*
 
 edit:
 	code . -n
+
+basic:
+	@echo "\n==== COMPILING ====\n"
+	ocamlbuild ftest_basic.native
+
+advanced:
+	@echo "\n==== COMPILING ====\n"
+	ocamlbuild ftest_advanced.native
 
 demo: build
 	@echo "\n==== EXECUTING ====\n"
@@ -17,4 +25,12 @@ demo: build
 
 clean:
 	-rm -rf _build/
-	-rm MSftest.native
+	-rm ftest_advanced.native
+
+clean_basic:
+	-rm -rf _build/
+	-rm ftest_basic.native
+
+clean_advanced:
+	-rm -rf _build/
+	-rm ftest_advanced.native

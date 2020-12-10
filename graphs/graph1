@@ -2,11 +2,19 @@
 
 %% Nodes
 
-u Gaby
-u Flo
-u Macha
+n 1 1
+n 2 2
+n 3 3
+n 4 4
+n 5 5
 
+%% format to test basic program : 
+%% e id1 id2 cost capacity
+e 1 2 7 30
+e 1 3 6 20 
+e 2 3 5 25
+e 2 4 4 10
+e 3 4 2 20
+e 3 5 2 25
+e 4 5 1 20
 
-p Flo -> Gaby,Flo,Macha : 30.0€
-p Gaby -> Gaby,Flo : 20.0€
-p Macha -> Gaby,Macha : 20.0€

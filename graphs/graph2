@@ -1,0 +1,17 @@
+
+%%
+
+s a,b,c,d,e,f 
+s j1,j2,j3,j4,j5,j6	
+
+%% preferences' format : p x -> y : pref n°Z 
+%% (Z from 1 to size of the second set (|S2|) )
+
+p a -> j2 : pref n°1
+p a -> j3 : pref n°2
+p c -> j1 : pref n°1
+p c -> j4 : pref n°2
+p d -> j3 : pref n°1
+p e -> j3 : pref n°1
+p e -> j4 : pref n°2
+p f -> j6 : pref n°1

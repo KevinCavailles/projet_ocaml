@@ -1,4 +1,5 @@
 open Graph
+open Printf
 
 type path = id list
 
@@ -7,6 +8,9 @@ type t_cost={
     mutable cout:int;
     mutable father:int 
     }
+
+let print_t_cost t_cost = 
+    printf "cout=%d, pere=%d\n" t_cost.cout t_cost.father
 
 let blf gr id_src id_dest=
     (*je compte le nb de noeuds dans le graphe pour instancier mon tableau*)
@@ -29,6 +33,7 @@ let blf gr id_src id_dest=
                 match l_out_arc with
                 |[]-> blf_rec gr file (a::file_marque)
                 |(id,(lcout,lcapa))::d-> 
+                    (*let () = printf "id=%d, cout=%d, capacite=%d\n" id lcout lcapa in*)
                     if lcapa <> 0 && (Int.add blf_tab.(a).cout lcout)<(blf_tab.(id).cout) then
                     begin
                         blf_tab.(id).cout<-(Int.add blf_tab.(a).cout lcout);
@@ -42,6 +47,7 @@ let blf gr id_src id_dest=
 (*avec blf_tab, on retrace chemin avec les pères*)
 let get_path gr id_src id_dest=
     let blf_tab=blf gr id_src id_dest in
+    (*let () = Array.iter (print_t_cost) blf_tab in*)
     let path=[id_dest] in
     let rec loop path blf_tab id_src id_dest= 
         let father_id=blf_tab.(id_dest).father in match father_id with

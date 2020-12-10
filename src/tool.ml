@@ -15,7 +15,7 @@ let gmap gr f =
 let add_capa g id1 id2 capa =
     let f = find_arc g id1 id2  in
     match f with
-    |None->raise Not_Found
+    |None-> raise Not_found
     |Some (l_cout,l_capa)->new_arc g id1 id2 (l_cout,(Int.add capa l_capa))
 
 let get_max_id graph = 
