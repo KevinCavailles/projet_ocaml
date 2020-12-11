@@ -17,11 +17,17 @@ advanced:
 	@echo "\n==== COMPILING ====\n"
 	ocamlbuild ftest_advanced.native
 
-demo: build
+demo_advanced: build
 	@echo "\n==== EXECUTING ====\n"
-	./ftest.native graphs/graph1 1 2 outfile
+	./ftest_advanced.native graphs/graph2 graphs/graph4
 	@echo "\n==== RESULT ==== (content of outfile) \n"
-	@cat outfile
+	@cat graphs/graph4
+
+demo_basic: build
+	@echo "\n==== EXECUTING ====\n"
+	./ftest_basic.native graphs/graph1 graphs/graph3 1 5
+	@echo "\n==== RESULT ==== (content of outfile) \n"
+	@cat graphs/graph3
 
 clean:
 	-rm -rf _build/

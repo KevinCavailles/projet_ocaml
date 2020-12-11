@@ -10,8 +10,8 @@ open Bp
 let () =
  
   (*/!\ Format de la commande pour lancer le test : 
-        ./ftest.native [nom_fichier_lecture] [id_source] [id_dest] [nom_fichier_ecriture]
-   ex : ./ftest.native graphs/graph1 0 5 graphs/graph3 *)
+        ./ftest_basic.native [nom_fichier_lecture] [nom_fichier_ecriture] [id_source] [id_dest]
+   ex : ./ftest_basic.native graphs/graph1 graphs/graph3 0 5 *)
 
   (* Check the number of command-line arguments *)
   if Array.length Sys.argv <> 5 then
@@ -21,7 +21,7 @@ let () =
     end ;
 
 
-  (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
+  (* Arguments are : infile(1) outfile(2) source-id(3) sink-id(4)  *)
 
 
 
@@ -56,6 +56,6 @@ let () =
 
   
   (*Uncomment the following line if you have graphviz installed  *)
-  (*let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in *)
+  let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in
   ()
 

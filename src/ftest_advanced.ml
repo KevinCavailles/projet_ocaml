@@ -10,8 +10,8 @@ open Bp
 let () =
  
   (*/!\ Format de la commande pour lancer le test : 
-        ./ftest.native [nom_fichier_lecture] [id_source] [id_dest] [nom_fichier_ecriture]
-   ex : ./ftest.native graphs/graph1 0 5 graphs/graph3 *)
+        ./ftest_advanced.native [nom_fichier_lecture] [nom_fichier_ecriture]
+   ex : ./ftest_advanced.native graphs/graph2 graphs/graph4 *)
 
   (* Check the number of command-line arguments *)
   if Array.length Sys.argv <> 3 then
