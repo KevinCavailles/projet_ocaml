@@ -1,4 +1,5 @@
-Base project for Ocaml project on Ford-Fulkerson. This project contains some simple configuration files to facilitate editing Ocaml in VSCode.
+Bi-partite matching based on a Gusacker Gowen algorithm with a Bellman Ford algorithm to search the shortest path.
+This project contains some simple configuration files to facilitate editing Ocaml in VSCode.
 
 To use, you should install the *OCaml* extension in VSCode. Other extensions might work as well but make sure there is only one installed.
 Then open VSCode in the root directory of this repository (command line: `code path/to/ocaml-maxflow-project`).
@@ -11,8 +12,11 @@ Features :
 
 
 A makefile provides some useful commands:
- - `make build` to compile. This creates an ftest.native executable
- - `make demo` to run the `ftest` program with some arguments
+ - `make build` to compile an algorithm which will accept an advanced file entry. This creates an ftest_advanced.native executable.
+ - `make advanced` to compile an algorithm which will accept an advanced file entry. This creates an ftest_advanced.native executable.
+ - `make basic` to compile an algorithm which will accept a basic file entry. This creates an ftest_basic.native executable.
+ - `make demo_advanced` to run the `ftest_advanced` program with some arguments
+ - `make demo_basic` to run the `ftest_basic` program with some arguments
  - `make format` to indent the entire project
  - `make edit` to open the project in VSCode
  - `make clean` to remove build artifacts
