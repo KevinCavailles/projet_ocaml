@@ -1,11 +1,25 @@
 
-%%
+%% Enter the 2 sets one after the other
+%% each element separated by a coma
 
 s a,b,c,d,e,f 
 s j1,j2,j3,j4,j5,j6	
 
-%% preferences' format : p x -> y : pref n°Z 
-%% (Z from 1 to size of the second set (|S2|) )
+%% Enter the capacity for the second set   /!\ INT only
+%% either a single number which will be the capacity of every second set's element
+%% or a list of number such as |list| = |S2|
+%% ex : 
+%%      s a,b,c,d,e,f,g,h,i,j,k,l
+%%      s j1,j2,j3
+%%      c 5,20,10
+%%      (c 5  <=> c 5,5,5 in this case)
+
+c 1
+
+%% Enter the preferences one by one with the format : elemS1 -> elemS2 : pref n°X    /!\ INT only for X
+%% with X from 1 to |S2|, 1 being the most desired, |S2| being the least desired
+%% (You can actually put any number, the rule is that for X and Y, X < Y, 
+%% the element corresponding to X is more preferred than the one corresponding to Y)
 
 p a -> j2 : pref n°1
 p a -> j3 : pref n°2

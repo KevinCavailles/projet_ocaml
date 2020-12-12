@@ -2,7 +2,6 @@ open BPgfile
 open Tool
 open BGAlgorithm
 open BLF
-open Format
 open Sys
 open Printf
 open Bp
@@ -23,14 +22,10 @@ let () =
 
   (* Arguments are : infile(1) source-id(2)*)
 
-
-
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(2)
 
   in
-
-  let () = printf "debug args\n" in
 
   (* These command-line arguments are not used for the moment. *)
 

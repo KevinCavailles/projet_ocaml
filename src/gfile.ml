@@ -4,17 +4,19 @@ open Printf
 type path = string
 
 (* Format of text files:
-   % This is a comment
+   %% This is a comment
 
-   % A node with its coordinates (which are not used).
+   %% A node with its coordinates (which are not used).
    n 88.8 209.7
    n 408.9 183.0
 
-   % The first node has id 0, the next is 1, and so on.
+   %% The first node has id 0, the next is 1, and so on.
 
-   % Edges: e source dest label
-   e 3 1 11
-   e 0 2 8
+   %% Enter the edges from one node to another one by one
+   %% format to test basic program : 
+   %% e id1 id2 cost capacity
+   e 3 1 5 20
+   e 0 2 8 10
 
 *)
 

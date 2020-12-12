@@ -93,10 +93,10 @@ let get_final_graph (initGraph : (int * int) graph) (residualGraph : (int * int)
 let busacker_gowen_algorithm (graph : (int * int) graph) (origin : id) (sink : id) = 
   let flow = 0 in
   let totalCost = 0 in
-
+  
   let initGraph = graph in
   let rec boucle graph origin sink flow totalCost = 
-
+   
     let path = get_path graph origin sink in
     match path with
       |None -> (flow, totalCost, graph)
