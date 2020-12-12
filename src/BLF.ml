@@ -40,12 +40,6 @@ let blf gr id_src id_dest=
                         blf_tab.(id).father<-a; 
                         if not (List.mem id file_marque) then loop_suc d blf_tab (id::file) else loop_suc d blf_tab file
                         end
-                    (*else if lcapa <> 0 && (Int.add blf_tab.(a).cout lcout)=(blf_tab.(id).cout) && ((Random.int 2)=0) then
-                        begin
-                        blf_tab.(id).cout<-(Int.add blf_tab.(a).cout lcout);
-                        blf_tab.(id).father<-a; 
-                        if not (List.mem id file_marque) then loop_suc d blf_tab (id::file) else loop_suc d blf_tab file
-                        end*)
                     else loop_suc d blf_tab file in
         loop_suc l_out_arc blf_tab b in
     blf_rec gr file_id file_marque 
