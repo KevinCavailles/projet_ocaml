@@ -1,14 +1,11 @@
-Bi-partite matching based on a Gusacker Gowen algorithm with a Bellman Ford algorithm to search the shortest path.
-This project contains some simple configuration files to facilitate editing Ocaml in VSCode.
+Better project for Ocaml project on Ford-Fulkerson. The min-cost max-flow algorithm implemented is the Busacker-Gowen algorithm.
 
-To use, you should install the *OCaml* extension in VSCode. Other extensions might work as well but make sure there is only one installed.
-Then open VSCode in the root directory of this repository (command line: `code path/to/ocaml-maxflow-project`).
+This branch features 2 versions of the project : 
+* The basic version to test the algorithm with any graph having a cost and a capacity for every edge.  
+The input file's format is almost the same as the one for the acceptable project (see gfile.ml and graphs/graph1). 
 
-Features :
- - full compilation as VSCode build task (Ctrl+Shift+b)
- - highlights of compilation errors as you type
- - code completion
- - automatic indentation on file save
+  
+* The advanced version to test bipartite matching problems from a certain input file's format (see BPgfile.ml and graphs/graph2).
 
 
 A makefile provides some useful commands:
@@ -21,7 +18,15 @@ A makefile provides some useful commands:
  - `make edit` to open the project in VSCode
  - `make clean` to remove build artifacts on the ftest_advanced.native file
  - `make clean_advanced` to remove build artifacts on the ftest_advanced.native file
- - `make clean_basic` to remove build artifacts on the ftest_basic.native file
+ - `make clean_basic` to remove build artifacts on the ftest_basic.native file  
+ 
 
-In case of trouble with the VSCode extension (e.g. the project does not build, there are strange mistakes), a common workaround is to (1) close vscode, (2) `make clean`, (3) `make build` and (4) reopen vscode (`make edit`).
+You can also test the 2 versions individually with any graph of your choice as long as the file you use follows the appropriate format :
+- The command to test the basic version is "./ftest_basic.native **[path_input_file] [path_output_file] [source] [sink]**"  
+- The command to test the advanced version is "./ftest_advanced.native **[path_input_file] [path_output_file]**"  
+**[path_input_file]** is the path of your file containing the graph's data.  
+**[path_output_file]** is the file's path where the results will be stored after the algorithm is executed. **It does not have to exist prior to running the command.**  
+**[source]** is the id of the source in your graph (a number)  
+**[sink]** is the id of the sink in your graph (a number)
+
 
