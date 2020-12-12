@@ -19,7 +19,9 @@ A makefile provides some useful commands:
  - `make demo_basic` to run the `ftest_basic` program with some arguments
  - `make format` to indent the entire project
  - `make edit` to open the project in VSCode
- - `make clean` to remove build artifacts
+ - `make clean` to remove build artifacts on the ftest_advanced.native file
+ - `make clean_advanced` to remove build artifacts on the ftest_advanced.native file
+ - `make clean_basic` to remove build artifacts on the ftest_basic.native file
 
 In case of trouble with the VSCode extension (e.g. the project does not build, there are strange mistakes), a common workaround is to (1) close vscode, (2) `make clean`, (3) `make build` and (4) reopen vscode (`make edit`).
 
