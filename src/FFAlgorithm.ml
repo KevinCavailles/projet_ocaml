@@ -60,17 +60,17 @@ let get_final_graph (initGraph : int graph) (residualGraph : int graph) =
   e_fold initGraph
   (
     fun acu id1 id2 x ->
-    let label_arc = (match find_arc initGraphString id1 id2 with
+    let labelArc = (match find_arc initGraphString id1 id2 with
       |None -> 0
       |Some x -> x) in
-    let label_rev_arc = match find_arc residualGraphString id2 id1 with
+    let labelRevArc = match find_arc residualGraphString id2 id1 with
       |None -> 0
       |Some x -> (match find_arc initGraphString id2 id1 with
         |None -> x
         |Some y -> x-y) in
-    let label_arc = string_of_int label_arc in
-    let label_rev_arc = if (label_rev_arc > 0) then (string_of_int label_rev_arc) else "0" in
-    new_arc acu id1 id2 (label_rev_arc^"/"^label_arc)  
+    let labelArc = string_of_int labelArc in
+    let labelRevArc = if (labelRevArc > 0) then (string_of_int labelRevArc) else "0" in
+    new_arc acu id1 id2 (labelRevArc^"/"^labelArc)  
   )
   finalGraph
 
@@ -87,14 +87,11 @@ let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) =
         (let path = x in 
         let arcs = create_arcs_from_nodes path in
         
-        (*let () = printf "dans boucle\n" in*)
-        
         (* Find the min value of the path *)
         let min = get_min_label_from_path graph arcs in
     
         (* Substract the min to every arc of the path *)
         let graph = add_value_to_arcs graph arcs (-min) in
-
 
         (* Get the reverse path *)
         let reverse = rev_arcs arcs in
@@ -105,6 +102,7 @@ let ford_fulk_algorithm (graph : int graph) (origin : id) (sink : id) =
         (* Add the min to the flow *) 
         let flow = flow + min in
         boucle graph origin sink flow) in
+
   let (maxFlow, residualGraph) = boucle graph origin sink flow in
   let finalGraph = get_final_graph initGraph residualGraph in 
   (maxFlow, finalGraph) 

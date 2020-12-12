@@ -2,19 +2,8 @@ open Graph
 open Tool
 open BLF
 
-
+(* Return a int graph from a string graph *)
 val g_to_int: string graph -> int graph
 
+(* Return a string graph after applying the ford-fulkerson algorithm on an int graph (capacity) *)
 val ford_fulk_algorithm : int graph -> id -> id -> (int * string graph)
-
-(* val g_to_string: int graph -> string graph *)
-
-(* val only_one_edge: int graph -> int graph *)
-
-(* for testing purpose *)
-
-(* val rev_arcs: (id * id) list -> (id * id) list
-
-val add_value_to_arcs: int graph -> (id * id) list -> int -> int graph
-
-val get_final_graph: int graph -> int graph -> string graph *)

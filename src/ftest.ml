@@ -8,7 +8,7 @@ open Sys
 let () =
  
   (*/!\ Format de la commande pour lancer le test : 
-        ./ftest.native [nom_fichier_lecture] [id_source] [id_dest] [nom_fichier_ecriture]
+        ./ftest.native [path_input_file] [source] [sink] [path_output_file]
    ex : ./ftest.native graphs/graph1 0 5 graphs/graph3 *)
 
   (* Check the number of command-line arguments *)
@@ -39,8 +39,6 @@ let () =
   let () = printf "max flow = %d\n" flow in
   let () = write_file outfile finalGraph in
   let () = export outfile finalGraph in
-  (* let () = export infile graph in *)
-
   
   (*Uncomment the following line if you have graphviz installed  *)
   (*let retour = command ("dot -Tsvg "^outfile^".dot > "^outfile^".svg") in*)
