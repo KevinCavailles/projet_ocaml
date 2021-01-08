@@ -29,4 +29,15 @@ You can also test the 2 versions individually with any graph of your choice as l
 **[source]** is the id of the source in your graph (a number)  
 **[sink]** is the id of the sink in your graph (a number)
 
+remarks for improvement: 
+
+- always work on integers rather than floats because of the round up than can lead to a huge ga between values
+- biased choice : 
+        reflect on people who choose only one option out of three, will they be advantaged or on the contrary, left behind
+        what do we want to achieve first, the maximum people or attribute the maximum first choices ?
+- small random cost to everyone in order to avoid biased choice from one roud of attribution to another
+        
+                  
+
+
 
